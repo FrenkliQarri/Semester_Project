@@ -38,12 +38,14 @@ def add_product(id, name, price, quantity, logic):
     else:
         inventory.append({"id": id, "name": name, "price": price, "quantity": quantity, "logic": logic})
         print(f"✅ Product '{name}' added successfully!")
+        save_inventory()  # Automatically save after adding
 
 def delete_product(id):
     """Delete a product from the inventory by its ID."""
     global inventory
     inventory = [product for product in inventory if product["id"] != id]
     print(f"🗑️ Product with ID {id} deleted successfully!")
+    save_inventory()  # Automatically save after deleting
 
 def list_products():
     """List all products in the inventory."""

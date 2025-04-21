@@ -1,5 +1,6 @@
 1|Laptop|999.99|10|p1 ∧ p2
 2|Smartphone|699.99|15|p1 ∨ p2
-5|Smartwatch|199.99|12|p1 ↔ p2
 4|Tablet|499.99|8|p1 → p2
+5|Smartwatch|199.99|12|p1 ↔ p2
+
 
