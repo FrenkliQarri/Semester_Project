@@ -146,18 +146,32 @@ def average_price():
         print("⚠️ Inventory is empty.")
         return
     avg = sum(p.price for p in inventory) / len(inventory)
-    print(f"📊 Average Product Price: ${avg:.2f}")
+    print(f"📊 Average Price: ${avg:.2f}")
 
-def list_all_logic_expressions():
-    logics = sorted(set(p.logic for p in inventory))
-    print("📚 Unique Logic Expressions in Inventory:")
-    for logic in logics:
-        print(f"- {logic}")
+def average_quantity():
+    if not inventory:
+        print("⚠️ Inventory is empty.")
+        return
+    avg = sum(p.quantity for p in inventory) / len(inventory)
+    print(f"📦 Average Quantity: {avg:.1f} units")
+
+def most_common_logic():
+    from collections import Counter
+    if not inventory:
+        print("⚠️ Inventory is empty.")
+        return
+    logics = [p.logic for p in inventory]
+    most_common = Counter(logics).most_common(1)
+    if most_common:
+        logic, count = most_common[0]
+        print(f"🧠 Most Common Logic Expression: '{logic}' (used {count} times)")
+    else:
+        print("No logic expressions found.")
 
 def product_summary():
-    print("📝 Inventory Summary:")
-    print(f"Total Products: {len(inventory)}")
-    calculate_total_inventory_value()
+    print("\n📈 Inventory Summary:")
+    print("-------------------------------")
     average_price()
-    list_low_stock(5)
-    list_top_n_expensive_products(3)
+    average_quantity()
+    most_common_logic()
+    calculate_total_inventory_value()
