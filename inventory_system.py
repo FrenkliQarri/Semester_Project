@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import itertools
 
 inventory = []
 
@@ -89,5 +90,32 @@ def list_products():
     print("ID    Name                 Price      Qty        Logic")
     print("------------------------------------------------------------")
     for product in inventory:
+        print(product)
+    print("------------------------------------------------------------")
+
+def evaluate_logic_expression(expr, p1_val, p2_val):
+    expr = expr.replace("¬", "not ").replace("∧", " and ").replace("∨", " or ")
+    expr = expr.replace("→", "<= ").replace("↔", "== ")
+    expr = expr.replace("p1", str(p1_val)).replace("p2", str(p2_val))
+    try:
+        return eval(expr)
+    except:
+        return False
+
+def sort_products_by_logic_score():
+    def logic_score(product):
+        truth_count = 0
+        for p1, p2 in itertools.product([True, False], repeat=2):
+            if evaluate_logic_expression(product.logic, p1, p2):
+                truth_count += 1
+        return truth_count
+
+    sorted_inventory = sorted(inventory, key=logic_score, reverse=True)
+    
+    print("🧠 Products Sorted by Logical Truth Score (Highest First):")
+    print("------------------------------------------------------------")
+    print("ID    Name                 Price      Qty        Logic")
+    print("------------------------------------------------------------")
+    for product in sorted_inventory:
         print(product)
     print("------------------------------------------------------------")
