@@ -1,19 +1,20 @@
-from inventory_system import add_product, delete_product, list_products, save_inventory, load_inventory
+from inventory_system import add_product, delete_product, list_products, save_inventory, load_inventory, display_all_truth_tables
 
 def menu():
-    print("Inventory Management System")
+    print("\nInventory Management System")
     print("1. Add Product")
     print("2. Delete Product")
     print("3. List Products")
     print("4. Save Inventory")
     print("5. Exit")
+    print("6. Show Truth Tables")
 
 def main():
-    load_inventory()
+    load_inventory() 
 
     while True:
         menu()
-        choice = input("Choose an option (1-5): ")
+        choice = input("Choose an option (1-6): ")
 
         if choice == "1":
             try:
@@ -25,19 +26,28 @@ def main():
                 add_product(product_id, name, price, quantity, logic)
             except ValueError:
                 print("⚠️ Invalid input. Please try again.")
+
         elif choice == "2":
             try:
                 product_id = int(input("Enter Product ID to delete: "))
                 delete_product(product_id)
             except ValueError:
                 print("⚠️ Invalid input. Please try again.")
+
         elif choice == "3":
             list_products()
+
         elif choice == "4":
-            save_inventory()
+            save_inventory()  # Save inventory to the file
+            print("✅ Inventory saved successfully!")
+
+        elif choice == "6":
+            display_all_truth_tables()
+
         elif choice == "5":
             print("👋 Exiting the inventory system.")
             break
+
         else:
             print("⚠️ Invalid choice, please choose a valid option.")
 
