@@ -1,7 +1,6 @@
 from inventory_system import add_product, delete_product, list_products, save_inventory, load_inventory
 
 def menu():
-    """Display the menu for user interaction."""
     print("Inventory Management System")
     print("1. Add Product")
     print("2. Delete Product")
@@ -10,9 +9,8 @@ def menu():
     print("5. Exit")
 
 def main():
-    """Main function to run the inventory system."""
-    load_inventory()  # Load inventory from the file at the start
-    
+    load_inventory()
+
     while True:
         menu()
         choice = input("Choose an option (1-5): ")
@@ -27,25 +25,19 @@ def main():
                 add_product(product_id, name, price, quantity, logic)
             except ValueError:
                 print("⚠️ Invalid input. Please try again.")
-        
         elif choice == "2":
             try:
                 product_id = int(input("Enter Product ID to delete: "))
                 delete_product(product_id)
             except ValueError:
                 print("⚠️ Invalid input. Please try again.")
-        
         elif choice == "3":
             list_products()
-        
         elif choice == "4":
-            save_inventory()  # Save inventory to the file
-            print("✅ Inventory saved successfully!")
-        
+            save_inventory()
         elif choice == "5":
             print("👋 Exiting the inventory system.")
             break
-        
         else:
             print("⚠️ Invalid choice, please choose a valid option.")
 
