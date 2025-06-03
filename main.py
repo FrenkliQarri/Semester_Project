@@ -1,55 +1,42 @@
-from inventory_system import add_product, delete_product, list_products, save_inventory, load_inventory, display_all_truth_tables
-
-def menu():
-    print("\nInventory Management System")
-    print("1. Add Product")
-    print("2. Delete Product")
-    print("3. List Products")
-    print("4. Save Inventory")
-    print("5. Exit")
-    print("6. Show Truth Tables")
+from inventory_system import (
+    add_product,
+    delete_product,
+    list_products,
+    search_by_name,
+    filter_by_logic,
+    filter_by_price_range,
+    filter_by_quantity,
+    calculate_total_inventory_value,
+    filter_by_logic_operator,
+    list_top_n_expensive_products,
+    list_low_stock,
+    average_price,
+    average_quantity,
+    most_common_logic,
+    product_summary,
+    load_inventory
+)
 
 def main():
-    load_inventory() 
+    load_inventory()
 
-    while True:
-        menu()
-        choice = input("Choose an option (1-6): ")
-
-        if choice == "1":
-            try:
-                product_id = int(input("Enter Product ID: "))
-                name = input("Enter Product Name: ")
-                price = float(input("Enter Product Price: "))
-                quantity = int(input("Enter Product Quantity: "))
-                logic = input("Enter Product Logic (e.g., p1 ∧ p2): ")
-                add_product(product_id, name, price, quantity, logic)
-            except ValueError:
-                print("⚠️ Invalid input. Please try again.")
-
-        elif choice == "2":
-            try:
-                product_id = int(input("Enter Product ID to delete: "))
-                delete_product(product_id)
-            except ValueError:
-                print("⚠️ Invalid input. Please try again.")
-
-        elif choice == "3":
-            list_products()
-
-        elif choice == "4":
-            save_inventory() 
-            print("✅ Inventory saved successfully!")
-
-        elif choice == "6":
-            display_all_truth_tables()
-
-        elif choice == "5":
-            print("👋 Exiting the inventory system.")
-            break
-
-        else:
-            print("⚠️ Invalid choice, please choose a valid option.")
+    add_product(1, "Laptop", 999.99, 10, "p1 and p2")
+    add_product(2, "Phone", 699.50, 5, "not p1")
+    add_product(3, "Mouse", 25.75, 100, "p2 or not p1")
+    
+    list_products()
+    search_by_name("Phone")
+    filter_by_logic("p1")
+    filter_by_price_range(20, 1000)
+    filter_by_quantity(10)
+    calculate_total_inventory_value()
+    filter_by_logic_operator("and")
+    list_top_n_expensive_products()
+    list_low_stock(10)
+    average_price()
+    average_quantity()
+    most_common_logic()
+    product_summary()
 
 if __name__ == "__main__":
     main()
