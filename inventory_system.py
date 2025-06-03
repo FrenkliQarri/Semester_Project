@@ -175,3 +175,15 @@ def product_summary():
     average_quantity()
     most_common_logic()
     calculate_total_inventory_value()
+
+def update_product_price(product_id, new_price):
+    """Update the price of a product."""
+    for product in inventory:
+        if product.id == product_id:
+            product.price = new_price
+            print(f"Price updated for product ID {product_id}")
+            save_inventory()
+            return True
+    print(f"Product with ID {product_id} not found!")
+    return False
+
