@@ -93,29 +93,34 @@ def list_products():
         print(product)
     print("------------------------------------------------------------")
 
-def evaluate_logic_expression(expr, p1_val, p2_val):
-    expr = expr.replace("¬", "not ").replace("∧", " and ").replace("∨", " or ")
-    expr = expr.replace("→", "<= ").replace("↔", "== ")
-    expr = expr.replace("p1", str(p1_val)).replace("p2", str(p2_val))
+def evaluate_logic_expression(expression, p1, p2):
     try:
-        return eval(expr)
+        expr = expression.replace("¬", "not ").replace("∧", " and ").replace("∨", " or ")
+        expr = expr.replace("→", " or not ").replace("↔", " == ")
+        return eval(expr, {}, {"p1": p1, "p2": p2})
     except:
         return False
 
-def sort_products_by_logic_score():
-    def logic_score(product):
-        truth_count = 0
-        for p1, p2 in itertools.product([True, False], repeat=2):
-            if evaluate_logic_expression(product.logic, p1, p2):
-                truth_count += 1
-        return truth_count
+def generate_truth_table(expression):
+    table = []
+    for p1, p2 in itertools.product([True, False], repeat=2):
+        result = evaluate_logic_expression(expression, p1, p2)
+        table.append((p1, p2, result))
+    return table
 
-    sorted_inventory = sorted(inventory, key=logic_score, reverse=True)
-    
-    print("🧠 Products Sorted by Logical Truth Score (Highest First):")
-    print("------------------------------------------------------------")
-    print("ID    Name                 Price      Qty        Logic")
-    print("------------------------------------------------------------")
-    for product in sorted_inventory:
-        print(product)
-    print("------------------------------------------------------------")
+def display_all_truth_tables():
+    if not inventory:
+        print("⚠️ No products in inventory.")
+        return
+
+    print("\n📊 Logic Truth Tables for All Products")
+    print("======================================")
+    for product in inventory:
+        print(f"🧩 Product: {product.name} (ID: {product.id})")
+        print(f"Logic: {product.logic}")
+        print("p1      p2      Result")
+        print("------------------------")
+        table = generate_truth_table(product.logic)
+        for p1, p2, result in table:
+            print(f"{str(p1):<8}{str(p2):<8}{str(result)}")
+        print("------------------------\n")
