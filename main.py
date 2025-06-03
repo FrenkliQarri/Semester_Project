@@ -16,7 +16,16 @@ from inventory_system import (
     product_summary,
     update_product_price,
     load_inventory,
-    save_inventory
+    save_inventory,
+    get_category_summary,
+    get_supplier_summary,
+    get_inventory_health,
+    get_product_recommendations,
+    get_inventory_trends,
+    get_inventory_report,
+    demonstrate_sorting,
+    demonstrate_truth_tables,
+    analyze_performance
 )
 
 def menu():
@@ -37,6 +46,15 @@ def menu():
     print("14. Show Most Common Logic")
     print("15. Show Product Summary")
     print("16. Update Product Price")
+    print("17. Show Category Summary")
+    print("18. Show Supplier Summary")
+    print("19. Show Inventory Health")
+    print("20. Show Product Recommendations")
+    print("21. Show Inventory Trends")
+    print("22. Generate Full Report")
+    print("23. Demonstrate Sorting Algorithms")
+    print("24. Demonstrate Truth Tables")
+    print("25. Run Performance Analysis")
     print("0. Exit")
 
 def get_valid_input(prompt, input_type=str):
@@ -53,12 +71,11 @@ def get_valid_input(prompt, input_type=str):
             print(f"❌ Invalid input. Please enter a valid {input_type.__name__}.")
 
 def main():
-    # Load inventory at startup
     load_inventory()
     
     while True:
         menu()
-        choice = input("Choose an option (0-16): ").strip()
+        choice = input("Choose an option (0-25): ").strip()
 
         if choice == "1":
             pid = get_valid_input("Enter Product ID: ", int)
@@ -124,8 +141,34 @@ def main():
             new_price = get_valid_input("Enter new price: ", float)
             update_product_price(pid, new_price)
 
+        elif choice == "17":
+            get_category_summary()
+
+        elif choice == "18":
+            get_supplier_summary()
+
+        elif choice == "19":
+            get_inventory_health()
+
+        elif choice == "20":
+            get_product_recommendations()
+
+        elif choice == "21":
+            get_inventory_trends()
+
+        elif choice == "22":
+            get_inventory_report()
+
+        elif choice == "23":
+            demonstrate_sorting()
+
+        elif choice == "24":
+            demonstrate_truth_tables()
+
+        elif choice == "25":
+            analyze_performance()
+
         elif choice == "0":
-            # Save inventory before exiting
             save_inventory()
             print("👋 Exiting the Inventory System. Goodbye!")
             break
