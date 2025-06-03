@@ -38,7 +38,7 @@ def main():
             list_products()
 
         elif choice == "4":
-            save_inventory()  # Save inventory to the file
+            save_inventory() 
             print("✅ Inventory saved successfully!")
 
         elif choice == "6":

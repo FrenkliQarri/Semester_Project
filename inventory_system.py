@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-import itertools
 
 inventory = []
 
@@ -93,34 +92,72 @@ def list_products():
         print(product)
     print("------------------------------------------------------------")
 
-def evaluate_logic_expression(expression, p1, p2):
-    try:
-        expr = expression.replace("¬", "not ").replace("∧", " and ").replace("∨", " or ")
-        expr = expr.replace("→", " or not ").replace("↔", " == ")
-        return eval(expr, {}, {"p1": p1, "p2": p2})
-    except:
-        return False
+def search_by_name(keyword):
+    print(f"🔍 Searching for '{keyword}'...")
+    found = [p for p in inventory if keyword.lower() in p.name.lower()]
+    if not found:
+        print("❌ No matching products found.")
+    else:
+        for product in found:
+            print(product)
 
-def generate_truth_table(expression):
-    table = []
-    for p1, p2 in itertools.product([True, False], repeat=2):
-        result = evaluate_logic_expression(expression, p1, p2)
-        table.append((p1, p2, result))
-    return table
+def filter_by_logic(expression):
+    print(f"🔎 Filtering products with logic: {expression}")
+    filtered = [p for p in inventory if expression in p.logic]
+    for product in filtered:
+        print(product)
 
-def display_all_truth_tables():
-    if not inventory:
-        print("⚠️ No products in inventory.")
-        return
-
-    print("\n📊 Logic Truth Tables for All Products")
-    print("======================================")
+def filter_by_price_range(min_price, max_price):
+    print(f"💲 Products between ${min_price:.2f} and ${max_price:.2f}")
     for product in inventory:
-        print(f"🧩 Product: {product.name} (ID: {product.id})")
-        print(f"Logic: {product.logic}")
-        print("p1      p2      Result")
-        print("------------------------")
-        table = generate_truth_table(product.logic)
-        for p1, p2, result in table:
-            print(f"{str(p1):<8}{str(p2):<8}{str(result)}")
-        print("------------------------\n")
+        if min_price <= product.price <= max_price:
+            print(product)
+
+def filter_by_quantity(min_qty):
+    print(f"📦 Products with quantity ≥ {min_qty}")
+    for product in inventory:
+        if product.quantity >= min_qty:
+            print(product)
+
+def calculate_total_inventory_value():
+    total = sum(product.price * product.quantity for product in inventory)
+    print(f"💰 Total Inventory Value: ${total:.2f}")
+
+def filter_by_logic_operator(operator):
+    print(f"🧠 Logic contains operator '{operator}'")
+    for product in inventory:
+        if operator in product.logic:
+            print(product)
+
+def list_top_n_expensive_products(n=5):
+    sorted_products = sorted(inventory, key=lambda p: p.price, reverse=True)
+    print(f"🏆 Top {n} Most Expensive Products")
+    for product in sorted_products[:n]:
+        print(product)
+
+def list_low_stock(threshold=10):
+    print(f"⚠️ Products with stock less than {threshold}")
+    for product in inventory:
+        if product.quantity < threshold:
+            print(product)
+
+def average_price():
+    if not inventory:
+        print("⚠️ Inventory is empty.")
+        return
+    avg = sum(p.price for p in inventory) / len(inventory)
+    print(f"📊 Average Product Price: ${avg:.2f}")
+
+def list_all_logic_expressions():
+    logics = sorted(set(p.logic for p in inventory))
+    print("📚 Unique Logic Expressions in Inventory:")
+    for logic in logics:
+        print(f"- {logic}")
+
+def product_summary():
+    print("📝 Inventory Summary:")
+    print(f"Total Products: {len(inventory)}")
+    calculate_total_inventory_value()
+    average_price()
+    list_low_stock(5)
+    list_top_n_expensive_products(3)
